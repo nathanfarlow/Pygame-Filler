@@ -7,7 +7,7 @@ import pygame
 from pygame.locals import *
 
 import numpy as np
-
+import copy
 
 class Filler:
 
@@ -73,12 +73,15 @@ class Filler:
     def get_winner(self):
         # -1 if no winner, 0 if player 1 wins, 1 if player 2 wins, 2 if there is a tie
 
-        to_win = self.w * self.h
+        to_win = math.ceil(self.w * self.h / 2)
 
         if max(self.score) < to_win:
             return -1
 
         return 2 if self.score[0] == self.score[1] else np.argmax(self.score)
+
+    def copy(self):
+        return copy.deepcopy(self)
 
 
 class UIComponent():
@@ -147,7 +150,7 @@ class ColorPicker(UIComponent):
             else:
                 pygame.draw.rect(screen, color, (self.x + i * bw, self.y, bw, bh))
 
-    def get_move(self, callback, exit_event):
+    def get_move(self, filler, callback, exit_event):
 
         # Async function that invokes callback() when
         # user decides move. asyncio would probably be better,
@@ -262,7 +265,7 @@ class FillerUI():
             self.get_next_move()
         
         delegate = self.delegates[self.filler.turn]
-        threading.Thread(target=delegate, args=(callback, self.exit_event)).start()
+        threading.Thread(target=delegate, args=(self.filler, callback, self.exit_event)).start()
 
     def update(self):
 
