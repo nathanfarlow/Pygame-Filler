@@ -15,7 +15,7 @@ class Filler:
         self.w = w
         self.h = h
         self.num_colors = num_colors
-        self.grid = np.random.randint(0, num_colors, (w, h))
+        self.grid = np.random.randint(0, num_colors, (h, w))
         self.turn = False
         self.start_pos = ((self.w - 1, 0), (0, self.h - 1))
         self.score = [0, 0]
@@ -72,7 +72,7 @@ class Filler:
 
     def get_winner(self):
         # -1 if no winner, 0 if player 1 wins, 1 if player 2 wins, 2 if there is a tie
-        
+
         to_win = self.w * self.h
 
         if max(self.score) < to_win:
@@ -304,11 +304,3 @@ class FillerUI():
 
     def is_done(self):
         return self.exit_event.is_set()
-
-if __name__ == '__main__':
-    g = FillerUI(Filler(10, 10, 6))
-
-    while not g.is_done():
-        g.draw()
-        g.update()
-        time.sleep(1/30)
