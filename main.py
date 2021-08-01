@@ -1,8 +1,9 @@
 import time
+import argparse
+
 from filler import Filler, FillerUI
 from ai import get_minimax_move, get_random_move
 
-import argparse
 
 if __name__ == '__main__':
 

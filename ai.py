@@ -3,7 +3,6 @@ import time
 
 from numpy import random
 
-from filler import Filler
 
 def heuristic(filler, is_max):
 
@@ -14,6 +13,7 @@ def heuristic(filler, is_max):
         return math.inf * (-1 if neg else 1)
 
     return filler.get_score(0) - filler.get_score(1)
+
 
 def minimax(filler, depth, alpha=-math.inf, beta=math.inf):
 
@@ -48,15 +48,17 @@ def minimax(filler, depth, alpha=-math.inf, beta=math.inf):
 
     return best
 
+
 def get_minimax_move(filler, callback, exit_event):
 
-    print(f'Starting alphabeta search for player {int(filler.turn)}')
+    print(f'Running alphabeta search for player {int(filler.turn) + 1}...')
     start = time.monotonic()
     value, move = minimax(filler, 12)
     end = time.monotonic()
     print(f'Found move {move} with value {value} in {end - start} seconds')
 
     callback(move)
+
 
 def get_random_move(filler, callback, exit_event):
     possible_moves = set(range(filler.num_colors)) - {filler.get_color(0), filler.get_color(1)}

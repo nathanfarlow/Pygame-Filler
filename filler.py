@@ -1,13 +1,13 @@
-
-import threading
 import time
 import math
+import copy
+import threading
+
+import numpy as np
 
 import pygame
 from pygame.locals import *
 
-import numpy as np
-import copy
 
 class Filler:
 
@@ -50,11 +50,9 @@ class Filler:
                     (x, y - 1), (x, y + 1)]
         
         for x, y in adjacent:
-            if (
-                x >= 0 and x < self.w
-                and y >= 0 and y < self.h
-                and (x, y) not in visited
-            ):
+            if (x >= 0 and x < self.w
+                    and y >= 0 and y < self.h
+                    and (x, y) not in visited):
                 self.__play(start_color, new_color, x, y, visited)
 
     def play(self, color):
@@ -114,6 +112,7 @@ class UIComponent():
     def normalize_in_view(self, x, y):
         return ((x - self.x) / self.w, (y - self.y) / self.h)
 
+
 class ColorPicker(UIComponent):
 
     def __init__(self, filler, colors, x, y, w, h):
@@ -135,7 +134,6 @@ class ColorPicker(UIComponent):
                     chosen = math.floor(u * self.filler.num_colors)
                     if chosen not in disabled:
                         self.chosen = chosen
-
 
     def draw(self, screen):
         num_colors = self.filler.num_colors
@@ -165,6 +163,7 @@ class ColorPicker(UIComponent):
         chosen = self.chosen
         self.chosen = None
         callback(chosen)
+
 
 class GameBoard(UIComponent):
 
@@ -213,7 +212,6 @@ class GameBoard(UIComponent):
 
                 self.selected %= (self.filler.w, self.filler.h)
 
-
     def draw(self, screen):
         num_colors = self.filler.num_colors
         bw, bh = self.w // self.filler.w, self.h // self.filler.h
@@ -225,6 +223,7 @@ class GameBoard(UIComponent):
 
         x, y = self.selected
         pygame.draw.rect(screen, (0, 0, 0), (x * bw, y * bh, bw, bh), 4)
+
 
 class FillerUI():
 
@@ -279,7 +278,6 @@ class FillerUI():
                 pygame.quit()
                 self.exit_event.set()
 
-
     def draw(self):
         self.screen.fill((230, 230, 230))
 
@@ -304,6 +302,5 @@ class FillerUI():
         pygame.display.flip()
         pygame.display.update()
         
-
     def is_done(self):
         return self.exit_event.is_set()
