@@ -11,11 +11,11 @@ import copy
 
 class Filler:
 
-    def __init__(self, w, h, num_colors):
+    def __init__(self, w, h):
         self.w = w
         self.h = h
-        self.num_colors = num_colors
-        self.grid = np.random.randint(0, num_colors, (h, w))
+        self.num_colors = 6
+        self.grid = np.random.randint(0, self.num_colors, (h, w))
         self.turn = False
         self.start_pos = ((self.w - 1, 0), (0, self.h - 1))
         self.score = [0, 0]
